@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta charset="utf-8">
+  <title>conditional comment generator</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- GitHub ribbon -->
+  <a href="https://github.com/sasaplus1/conditional-comment-generator">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+  </a>
+  <header class="header">
+    <h1 class="title">conditional comment generator</h1>
+  </header>
+  <main class="contents" role="main">
+    <section class="contents-area">
+      <div class="condition-area">
+        <h2 class="section-title">条件</h2>
+        <!-- ko foreach: conditions -->
+          <div class="condition">
+            <select data-bind="options: argument1Items, optionsText: 'label', optionsValue: 'value', value: argument1"></select>
+            <!-- ko if: typeof argument1() === 'string' -->
+              が
+              <input type="text" size="6" data-bind="textInput: argument2">
+              <select data-bind="options: comparisonItems, optionsText: 'label', optionsValue: 'value', value: comparisonOperator"></select>
+            <!-- /ko -->
+            <select data-bind="options: notItems, optionsText: 'label', optionsValue: 'value', value: not"></select>
+            <!-- ko if: $index() !== $root.conditions().length - 1 -->
+              <select data-bind="options: logicalItems, optionsText: 'label', optionsValue: 'value', value: logicalOperator"></select>
+            <!-- /ko -->
+            <div class="controls">
+              <input type="button" value="条件の追加" data-bind="click: $root.addCondition">
+              <input type="button" value="条件の削除" data-bind="click: $root.removeCondition, enable: $root.conditions().length > 1">
+            </div>
+          </div>
+        <!-- /ko -->
+        <div class="downlevel">
+          上記の条件に一致したInternet Explorerで
+          <select data-bind="options: downlevelItems, optionsText: 'label', optionsValue: 'value', value: downlevel"></select>
+          <!-- ko if: downlevel() === DOWNLEVEL_HIDDEN -->
+            <span class="info">（条件に一致したInternet Explorerでのみ表示されます）</span>
+          <!-- /ko -->
+          <!-- ko if: downlevel() === DOWNLEVEL_REVEAL -->
+            <span class="info">（条件に一致しなかったInternet Explorerと他のブラウザで表示されます）</span>
+          <!-- /ko -->
+        </div>
+      </div>
+
+      <div class="result-area">
+        <h2 class="section-title">条件付きコメント</h2>
+        <textarea class="result" rows="3" data-bind="textInput: result"></textarea>
+      </div>
+
+      <div class="link-area">
+        <h2 class="section-title">リンク</h2>
+        <ul>
+          <li><a href="http://msdn.microsoft.com/en-us/library/ms537512(v=vs.85).aspx">About conditional comments - MSDN</a></li>
+          <li><a href="http://msdn.microsoft.com/ja-jp/library/cc817577.aspx">バージョンベクタ - MSDN</a></li>
+          <li><a href="http://ja.wikipedia.org/wiki/%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88">条件付きコメント - Wikipedia</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <script src="knockout-3.2.0.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
